@@ -8,24 +8,23 @@ import React from 'react';
  * @param {() => void} handler triggered after every timeout tick
  * @param {number} interval timeout interval
  */
-const useIntervalFetch = (dep, handler, interval) => {
+const useIntervalFetch = (deps, handler, interval, onClose) => {
   React.useEffect(() => {
-    if (!dep) return;
+    if (onClose() === true) return;
 
     let id = setTimeout(async function rec() {
       try {
         handler();
-        id = setTimeout(rec, interval);
       } catch (err) {
         clearTimeout(id);
         console.error(err.message);
       }
-    }, 0);
+    }, interval);
 
     return () => {
       clearTimeout(id);
     };
-  }, [dep]);
+  }, deps);
 };
 
 /**

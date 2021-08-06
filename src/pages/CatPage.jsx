@@ -27,7 +27,7 @@ function CatPage() {
   );
 
   useInitFetch(getImage);
-  useIntervalFetch(userInput['autorefresh-checkbox'], getImage, 5000);
+  useIntervalFetch([userInput['autorefresh-checkbox'], isLoaded], getImage, 5000, () => userInput['autorefresh-checkbox'] === false);
 
   async function getImage() {
     setIsLoaded(false);
